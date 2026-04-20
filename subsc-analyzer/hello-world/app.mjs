@@ -1,24 +1,34 @@
-/**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Context doc: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-context.html 
- * @param {Object} context
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
- * 
- */
+export const lambdaHandler = async (event) => {
+    try {
+        // 拡張機能から送られてくるデータをパース
+        const body = JSON.parse(event.body || "{}");
+        const { url, text } = body;
 
-export const lambdaHandler = async (event, context) => {
-    const response = {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: 'hello world',
-      })
-    };
+        console.log("Received URL:", url);
 
-    return response;
-  };
-  
+        // 開発初期はBedrockを呼ばずに固定値を返す（完全無料！）
+        const response = {
+            url: url || "no-url",
+            daily_cost: 165, // ダミーの計算結果
+            currency: "JPY",
+            message: "Mock Mode: Bedrock is not called yet.",
+            timestamp: new Date().toISOString()
+        };
+
+        return {
+            statusCode: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*", // ブラウザ拡張からのアクセスを許可
+                "Access-Control-Allow-Methods": "POST,OPTIONS"
+            },
+            body: JSON.stringify(response),
+        };
+    } catch (err) {
+        console.error(err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: "Internal Server Error" }),
+        };
+    }
+};
