@@ -1,0 +1,12 @@
+# SAM CLI の一時フォルダ
+.aws-sam/
+
+# Node.js 依存ライブラリ
+node_modules/
+
+# ログファイル
+npm-debug.log*
+
+# OS固有のファイル
+.DS_Store
+Thumbs.db
