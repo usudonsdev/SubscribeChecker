@@ -1,34 +1,37 @@
 export const lambdaHandler = async (event) => {
+    // 共通のレスポンスヘッダー
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // 全てのドメインを許可
+        "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+    };
+
+    // 1. OPTIONS（プリフライト）への即時回答
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 200, headers, body: '' };
+    }
+
     try {
-        // 拡張機能から送られてくるデータをパース
         const body = JSON.parse(event.body || "{}");
-        const { url, text } = body;
-
-        console.log("Received URL:", url);
-
-        // 開発初期はBedrockを呼ばずに固定値を返す（完全無料！）
         const response = {
-            url: url || "no-url",
-            daily_cost: 165, // ダミーの計算結果
-            currency: "JPY",
-            message: "Mock Mode: Bedrock is not called yet.",
-            timestamp: new Date().toISOString()
+            url: body.url || "no-url",
+            daily_cost: 165,
+            message: "CORS Fix Applied!"
         };
 
+        // 2. 正常系
         return {
             statusCode: 200,
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*", // ブラウザ拡張からのアクセスを許可
-                "Access-Control-Allow-Methods": "POST,OPTIONS"
-            },
+            headers: headers,
             body: JSON.stringify(response),
         };
     } catch (err) {
-        console.error(err);
+        // 3. 異常系（パース失敗など）
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "Internal Server Error" }),
+            headers: headers,
+            body: JSON.stringify({ message: "Internal Error", error: err.message }),
         };
     }
 };

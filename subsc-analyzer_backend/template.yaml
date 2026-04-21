@@ -9,6 +9,11 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+  Api:
+    Cors:
+      AllowMethods: "'POST,OPTIONS'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      AllowOrigin: "'*'"
 
 Resources:
   HelloWorldFunction:
@@ -24,7 +29,8 @@ Resources:
           Type: Api
           Properties:
             Path: /analyze
-            Method: post
+            Method: any
+            RestApiId: !Ref ServerlessRestApi # これを追記すると確実にAPI Gatewayが作られる
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
