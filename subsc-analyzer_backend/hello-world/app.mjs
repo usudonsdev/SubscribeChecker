@@ -1,37 +1,38 @@
+// backend/hello-world/app.mjs
 export const lambdaHandler = async (event) => {
-    // 共通のレスポンスヘッダー
     const headers = {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // 全てのドメインを許可
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token"
+        "Access-Control-Allow-Headers": "Content-Type"
     };
 
-    // 1. OPTIONS（プリフライト）への即時回答
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200, headers, body: '' };
-    }
+    if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
         const body = JSON.parse(event.body || "{}");
-        const response = {
-            url: body.url || "no-url",
-            daily_cost: 165,
-            message: "CORS Fix Applied!"
-        };
+        const receivedText = body.text || "";
 
-        // 2. 正常系
+        // ★ここでターミナルに表示させる
+        console.log("--- 取得したテキストの冒頭100文字 ---");
+        console.log(receivedText.substring(0, 100));
+        console.log("------------------------------------");
+
+        // 簡易ロジック
+        let price = 0;
+        if (receivedText.includes("円")) {
+            price = 500; // 仮に円という文字があれば500円とする
+        }
+
         return {
             statusCode: 200,
-            headers: headers,
-            body: JSON.stringify(response),
+            headers,
+            body: JSON.stringify({
+                daily_cost: Math.round(price / 30),
+                message: receivedText ? "テキスト解析に成功" : "テキストが空でした"
+            }),
         };
     } catch (err) {
-        // 3. 異常系（パース失敗など）
-        return {
-            statusCode: 500,
-            headers: headers,
-            body: JSON.stringify({ message: "Internal Error", error: err.message }),
-        };
+        return { statusCode: 500, headers, body: JSON.stringify({ message: "Error" }) };
     }
 };
