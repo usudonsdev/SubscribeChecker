@@ -1,36 +1,83 @@
-document.getElementById('checkBtn').addEventListener('click', async () => {
-    const status = document.getElementById('status');
-    const result = document.getElementById('result');
-    status.textContent = "解析中...";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+// クライアントの初期化（ハンドラーの外で行うことで再利用されます）
+const client = new DynamoDBClient({});
+const ddbDocClient = DynamoDBDocumentClient.from(client);
+const TABLE_NAME = process.env.CACHE_TABLE_NAME;
 
-    // 1. ページ内のテキストを抽出するスクリプトを実行
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => {
-            // ページ全体のテキストを結合して取得（とりあえず最初の1000文字程度）
-        return document.body.innerText.substring(0, 1000);
-        }
-    }, async (results) => {
-    const pageText = results[0].result;
+export const lambdaHandler = async (event) => {
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+    };
+
+    // CORS プリフライト対応
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 200, headers, body: '' };
+    }
 
     try {
-      // 2. 取得した本物のテキストをAPIに送る
-        const response = await fetch('http://127.0.0.1:3000/analyze', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                url: tab.url,
-                text: pageText // ここが本物のデータ！
-            })
-        });
+        const body = JSON.parse(event.body || "{}");
+        const url = body.url || "unknown";
+        const text = body.text || "";
 
-        const data = await response.json();
-        result.textContent = data.daily_cost;
-        status.textContent = "完了！";
-        } catch (error) {
-        status.textContent = "API接続エラー";
+        // --- 1. DynamoDBキャッシュをチェック ---
+        console.log(`Checking cache for: ${url}`);
+        const getResult = await ddbDocClient.send(new GetCommand({
+            TableName: TABLE_NAME,
+            Key: { url: url }
+        }));
+
+        if (getResult.Item) {
+            console.log("[Cache Hit] データをDBから取得しました");
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify(getResult.Item),
+            };
         }
-    });
-});
+
+        // --- 2. キャッシュがない場合の処理（解析フェーズ） ---
+        console.log("[Cache Miss] 解析ロジックを実行します");
+        
+        // ここに以前の「簡易判定ロジック」を入れます
+        // ※将来的にここを Bedrock AI 呼び出しに置き換えます
+        let monthlyPrice = 0;
+        const priceMatch = text.match(/([0-9,]+)円/);
+        if (priceMatch) {
+            monthlyPrice = parseInt(priceMatch[1].replace(/,/g, ''));
+        }
+
+        const dailyCost = Math.round(monthlyPrice / 30);
+        const resultItem = {
+            url: url,
+            daily_cost: dailyCost,
+            message: monthlyPrice > 0 ? `月額${monthlyPrice}円から計算` : "料金が見つかりませんでした",
+            updatedAt: new Date().toISOString()
+        };
+
+        // --- 3. 結果をDynamoDBに保存 ---
+        await ddbDocClient.send(new PutCommand({
+            TableName: TABLE_NAME,
+            Item: resultItem
+        }));
+        console.log("[Cache Save] 新しい結果を保存しました");
+
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify(resultItem),
+        };
+
+    } catch (err) {
+        console.error("Error details:", err);
+        return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({ message: "Internal Server Error", error: err.message }),
+        };
+    }
+};

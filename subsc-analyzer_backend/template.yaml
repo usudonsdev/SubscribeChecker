@@ -31,6 +31,26 @@ Resources:
             Path: /analyze
             Method: any
             RestApiId: !Ref ServerlessRestApi # これを追記すると確実にAPI Gatewayが作られる
+      Policies:
+        # LambdaにDynamoDBの読み書き権限を与える
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CacheTable
+      Environment:
+        Variables:
+          # プログラムからテーブル名を参照できるように環境変数を設定
+          CACHE_TABLE_NAME: !Ref CacheTable
+
+    # DynamoDBテーブルの定義を追加
+  CacheTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: url
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM

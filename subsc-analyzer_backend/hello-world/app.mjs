@@ -13,6 +13,13 @@ export const lambdaHandler = async (event) => {
         const body = JSON.parse(event.body || "{}");
         const receivedText = body.text || "";
 
+        const filteredText = body.text
+            .split("\n---\n")
+            .filter(line => line.includes("月") || line.includes("プラン") || line.includes("込"))
+            .join("\n");
+
+        console.log("AIに送る厳選テキスト:", filteredText);
+
         // ★ここでターミナルに表示させる
         console.log("--- 取得したテキストの冒頭100文字 ---");
         console.log(receivedText.substring(0, 100));
