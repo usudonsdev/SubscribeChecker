@@ -1,11 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  subsc-analyzer
+Description: subsc-analyzer
 
-  Sample SAM Template for subsc-analyzer
-  
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
@@ -17,32 +13,31 @@ Globals:
 
 Resources:
   HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: hello-world/
       Handler: app.lambdaHandler
       Runtime: nodejs20.x
       Architectures:
         - x86_64
+      # ↓ここから Properties の「中」に入れます
       Events:
-        HelloWorld:
+        AnalyzeAPI:
           Type: Api
           Properties:
             Path: /analyze
             Method: any
-            RestApiId: !Ref ServerlessRestApi # これを追記すると確実にAPI Gatewayが作られる
-      Policies:
-        # LambdaにDynamoDBの読み書き権限を与える
+      Policies: # ← 正しい位置（一段下げた）
         - DynamoDBCrudPolicy:
             TableName: !Ref CacheTable
-      Environment:
+      Environment: # ← 正しい位置（一段下げた）
         Variables:
-          # プログラムからテーブル名を参照できるように環境変数を設定
           CACHE_TABLE_NAME: !Ref CacheTable
 
-    # DynamoDBテーブルの定義を追加
   CacheTable:
     Type: AWS::Serverless::SimpleTable
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete # 前回の警告対策も追加
     Properties:
       PrimaryKey:
         Name: url
@@ -52,15 +47,6 @@ Resources:
         WriteCapacityUnits: 1
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/Prod/analyze/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/analyze/"
