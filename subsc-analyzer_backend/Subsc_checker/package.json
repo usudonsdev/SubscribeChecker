@@ -1,8 +1,11 @@
 {
-  "name": "hello_world",
+  "name": "subsc_checker",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
-  "main": "app.js",
+  "description": "Subscription pricing checker using pricing rules",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
   "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
   "author": "SAM CLI",
   "license": "MIT",

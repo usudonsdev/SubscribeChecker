@@ -5,7 +5,7 @@ import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dyn
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const TABLE_NAME = process.env.CACHE_TABLE_NAME;
 
-export const lambdaHandler = async (event) => {
+const lambdaHandler = async (event) => {
     const headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -85,3 +85,5 @@ export const lambdaHandler = async (event) => {
         };
     }
 };
+
+export { lambdaHandler };
