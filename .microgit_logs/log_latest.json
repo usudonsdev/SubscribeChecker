@@ -1,0 +1,147 @@
+[
+  {
+    "timestamp": "2026-06-23T05:12:14.977Z",
+    "level": "INFO",
+    "message": "MicroGit 拡張機能が完全に目覚めました！"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:19.184Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:19.261Z",
+    "level": "INFO",
+    "message": "シャドウリポジトリを初期化しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\.microgit_shadow"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:19.567Z",
+    "level": "INFO",
+    "message": "過去から新しいマイクロブランチが分岐しました: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:19.567Z",
+    "level": "INFO",
+    "message": "シャドウコミット成功: readme.md (Tag: mb-1)"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:19.623Z",
+    "level": "INFO",
+    "message": "【現在のツリー状態】\n[\n  {\n    \"hash\": \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\",\n    \"parents\": [],\n    \"tags\": [\n      \"mb-1\"\n    ],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:19.314Z\",\n    \"timestamp\": \"2026/6/23 14:31:19\"\n  }\n]"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:51.295Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:51.613Z",
+    "level": "INFO",
+    "message": "マイクロブランチを前進させました: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:51.613Z",
+    "level": "INFO",
+    "message": "シャドウコミット成功: readme.md (Tag: mb-1)"
+  },
+  {
+    "timestamp": "2026-06-23T05:31:51.669Z",
+    "level": "INFO",
+    "message": "【現在のツリー状態】\n[\n  {\n    \"hash\": \"76f550ebb38cd092a2fffb87a3929042b1e5d056\",\n    \"parents\": [\n      \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\"\n    ],\n    \"tags\": [\n      \"mb-1\"\n    ],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:51.410Z\",\n    \"timestamp\": \"2026/6/23 14:31:51\"\n  },\n  {\n    \"hash\": \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\",\n    \"parents\": [],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:19.314Z\",\n    \"timestamp\": \"2026/6/23 14:31:19\"\n  }\n]"
+  },
+  {
+    "timestamp": "2026-06-23T05:35:43.899Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:35:44.185Z",
+    "level": "INFO",
+    "message": "マイクロブランチを前進させました: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:35:44.186Z",
+    "level": "INFO",
+    "message": "シャドウコミット成功: readme.md (Tag: mb-1)"
+  },
+  {
+    "timestamp": "2026-06-23T05:35:44.239Z",
+    "level": "INFO",
+    "message": "【現在のツリー状態】\n[\n  {\n    \"hash\": \"68cc1f4eaeec21cda93b1a734cf10fdf50778a9a\",\n    \"parents\": [\n      \"76f550ebb38cd092a2fffb87a3929042b1e5d056\"\n    ],\n    \"tags\": [\n      \"mb-1\"\n    ],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:35:44.000Z\",\n    \"timestamp\": \"2026/6/23 14:35:44\"\n  },\n  {\n    \"hash\": \"76f550ebb38cd092a2fffb87a3929042b1e5d056\",\n    \"parents\": [\n      \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\"\n    ],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:51.410Z\",\n    \"timestamp\": \"2026/6/23 14:31:51\"\n  },\n  {\n    \"hash\": \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\",\n    \"parents\": [],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:19.314Z\",\n    \"timestamp\": \"2026/6/23 14:31:19\"\n  }\n]"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:07.269Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:07.561Z",
+    "level": "INFO",
+    "message": "マイクロブランチを前進させました: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:07.561Z",
+    "level": "INFO",
+    "message": "シャドウコミット成功: readme.md (Tag: mb-1)"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:07.613Z",
+    "level": "INFO",
+    "message": "【現在のツリー状態】\n[\n  {\n    \"hash\": \"542ff16959da1370a03366ad2bfb4b12c90d57aa\",\n    \"parents\": [\n      \"68cc1f4eaeec21cda93b1a734cf10fdf50778a9a\"\n    ],\n    \"tags\": [\n      \"mb-1\"\n    ],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:36:07.371Z\",\n    \"timestamp\": \"2026/6/23 14:36:07\"\n  },\n  {\n    \"hash\": \"68cc1f4eaeec21cda93b1a734cf10fdf50778a9a\",\n    \"parents\": [\n      \"76f550ebb38cd092a2fffb87a3929042b1e5d056\"\n    ],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:35:44.000Z\",\n    \"timestamp\": \"2026/6/23 14:35:44\"\n  },\n  {\n    \"hash\": \"76f550ebb38cd092a2fffb87a3929042b1e5d056\",\n    \"parents\": [\n      \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\"\n    ],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:51.410Z\",\n    \"timestamp\": \"2026/6/23 14:31:51\"\n  },\n  {\n    \"hash\": \"bb259b271d467a13d26a7e8aae32d2b43629c6ae\",\n    \"parents\": [],\n    \"tags\": [],\n    \"subject\": \"micro: saved readme.md at 2026-06-23T05:31:19.314Z\",\n    \"timestamp\": \"2026/6/23 14:31:19\"\n  }\n]"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:27.893Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.105Z",
+    "level": "INFO",
+    "message": "変更がないためコミットをスキップしました: readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.156Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.370Z",
+    "level": "INFO",
+    "message": "変更がないためコミットをスキップしました: readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.385Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.605Z",
+    "level": "INFO",
+    "message": "変更がないためコミットをスキップしました: readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.618Z",
+    "level": "INFO",
+    "message": "ファイル保存イベントを検知しました: c:\\Users\\ssliv\\Documents\\GitHub\\SubscribeChecker\\readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:36:28.844Z",
+    "level": "INFO",
+    "message": "変更がないためコミットをスキップしました: readme.md"
+  },
+  {
+    "timestamp": "2026-06-23T05:40:09.094Z",
+    "level": "INFO",
+    "message": "[タイムトラベル] readme.md を 542ff16959da1370a03366ad2bfb4b12c90d57aa の時点に復元。現在のアクティブタグ: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:40:27.598Z",
+    "level": "INFO",
+    "message": "[タイムトラベル] readme.md を bb259b271d467a13d26a7e8aae32d2b43629c6ae の時点に復元。現在のアクティブタグ: mb-1"
+  },
+  {
+    "timestamp": "2026-06-23T05:40:39.282Z",
+    "level": "INFO",
+    "message": "[タイムトラベル] readme.md を 542ff16959da1370a03366ad2bfb4b12c90d57aa の時点に復元。現在のアクティブタグ: mb-1"
+  }
+]
