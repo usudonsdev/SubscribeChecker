@@ -1,83 +1,41 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 
-// クライアントの初期化（ハンドラーの外で行うことで再利用されます）
-const client = new DynamoDBClient({});
-const ddbDocClient = DynamoDBDocumentClient.from(client);
-const TABLE_NAME = process.env.CACHE_TABLE_NAME;
+// LambdaエンドポイントURL（例: API GatewayのURLに書き換えてください）
+const API_ENDPOINT = 'https://your-api-gateway-url/';
 
-export const lambdaHandler = async (event) => {
-    const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST,GET,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
-    };
+document.addEventListener('DOMContentLoaded', () => {
+    const checkBtn = document.getElementById('checkBtn');
+    const resultSpan = document.getElementById('result');
+    const statusDiv = document.getElementById('status');
 
-    // CORS プリフライト対応
-    if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200, headers, body: '' };
-    }
+    checkBtn.addEventListener('click', async () => {
+        resultSpan.textContent = '-';
+        statusDiv.textContent = '判定中...';
 
-    try {
-        const body = JSON.parse(event.body || "{}");
-        const url = body.url || "unknown";
-        const text = body.text || "";
+        // 現在のタブのURLとテキストを取得
+        chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+            const tab = tabs[0];
+            chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: () => document.body.innerText
+            }, async (results) => {
+                const pageText = results[0].result;
+                const url = tab.url;
 
-        // --- 1. DynamoDBキャッシュをチェック ---
-        console.log(`Checking cache for: ${url}`);
-        const getResult = await ddbDocClient.send(new GetCommand({
-            TableName: TABLE_NAME,
-            Key: { url: url }
-        }));
-
-        if (getResult.Item) {
-            console.log("[Cache Hit] データをDBから取得しました");
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify(getResult.Item),
-            };
-        }
-
-        // --- 2. キャッシュがない場合の処理（解析フェーズ） ---
-        console.log("[Cache Miss] 解析ロジックを実行します");
-        
-        // ここに以前の「簡易判定ロジック」を入れます
-        // ※将来的にここを Bedrock AI 呼び出しに置き換えます
-        let monthlyPrice = 0;
-        const priceMatch = text.match(/([0-9,]+)円/);
-        if (priceMatch) {
-            monthlyPrice = parseInt(priceMatch[1].replace(/,/g, ''));
-        }
-
-        const dailyCost = Math.round(monthlyPrice / 30);
-        const resultItem = {
-            url: url,
-            daily_cost: dailyCost,
-            message: monthlyPrice > 0 ? `月額${monthlyPrice}円から計算` : "料金が見つかりませんでした",
-            updatedAt: new Date().toISOString()
-        };
-
-        // --- 3. 結果をDynamoDBに保存 ---
-        await ddbDocClient.send(new PutCommand({
-            TableName: TABLE_NAME,
-            Item: resultItem
-        }));
-        console.log("[Cache Save] 新しい結果を保存しました");
-
-        return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify(resultItem),
-        };
-
-    } catch (err) {
-        console.error("Error details:", err);
-        return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ message: "Internal Server Error", error: err.message }),
-        };
-    }
-};
+                try {
+                    const response = await fetch(API_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url, text: pageText })
+                    });
+                    if (!response.ok) throw new Error('APIエラー');
+                    const data = await response.json();
+                    resultSpan.textContent = data.daily_cost !== undefined ? data.daily_cost : '-';
+                    statusDiv.textContent = data.message || '';
+                } catch (err) {
+                    resultSpan.textContent = '-';
+                    statusDiv.textContent = 'エラー: ' + err.message;
+                }
+            });
+        });
+    });
+});
