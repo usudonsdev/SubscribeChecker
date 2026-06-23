@@ -1,16 +1,16 @@
 # subsc-analyzer
 
-This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
+このプロジェクトには、SAM CLI を使用してデプロイできるサーバーレスアプリケーションのソースコードとサポートファイルが含まれています。以下のファイルとフォルダが含まれています。
 
-- hello-world - Code for the application's Lambda function.
-- events - Invocation events that you can use to invoke the function.
-- hello-world/tests - Unit tests for the application code. 
-- template.yaml - A template that defines the application's AWS resources.
+- `hello-world` - アプリケーションの Lambda 関数のコード。
+- `events` - 関数を呼び出すために使用できる呼び出しイベント。
+- `hello-world/tests` - アプリケーションコードの単体テスト。
+- `template.yaml` - アプリケーションの AWS リソースを定義するテンプレート。
 
-The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
+このアプリケーションは、Lambda 関数や API Gateway API などのいくつかの AWS リソースを使用します。これらのリソースは、このプロジェクト内の `template.yaml` ファイルで定義されています。アプリケーションコードを更新するのと同じデプロイプロセスを通じて、テンプレートを更新して AWS リソースを追加することができます。
 
-If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
-The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds a simplified step-through debugging experience for Lambda function code. See the following links to get started.
+アプリケーションのビルドとテストに統合開発環境（IDE）を使用したい場合は、AWS Toolkit を使用できます。
+AWS Toolkit は、SAM CLI を使用して AWS 上にサーバーレスアプリケーションを構築およびデプロイするための、人気のある IDE 向けのオープンソースプラグインです。AWS Toolkit は、Lambda 関数コードの簡素化されたステップスルーデバッグ体験も提供します。開始するには、以下のリンクを参照してください。
 
 * [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 * [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
@@ -24,59 +24,59 @@ The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI
 * [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
 * [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
 
-## Deploy the sample application
+## サンプルアプリケーションのデプロイ
 
-The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
+Serverless Application Model Command Line Interface (SAM CLI) は、Lambda アプリケーションを構築およびテストするための機能を追加する AWS CLI の拡張機能です。Docker を使用して、Lambda と一致する Amazon Linux 環境で関数を実行します。また、アプリケーションのビルド環境や API をエミュレートすることもできます。
 
-To use the SAM CLI, you need the following tools.
+SAM CLI を使用するには、以下のツールが必要です。
 
-* SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* Node.js - [Install Node.js 20](https://nodejs.org/en/), including the NPM package management tool.
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+* SAM CLI - [SAM CLI のインストール](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+* Node.js - [Node.js 20 のインストール](https://nodejs.org/en/) (NPM パッケージ管理ツールを含む)
+* Docker - [Docker Community Edition のインストール](https://hub.docker.com/search/?type=edition&offering=community)
 
-To build and deploy your application for the first time, run the following in your shell:
+アプリケーションを初めてビルドおよびデプロイするには、シェルで以下を実行します：
 
 ```bash
 sam build
 sam deploy --guided
-```
 
-The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
 
-* **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
-* **AWS Region**: The AWS region you want to deploy your app to.
-* **Confirm changes before deploy**: If set to yes, any change sets will be shown to you before execution for manual review. If set to no, the AWS SAM CLI will automatically deploy application changes.
-* **Allow SAM CLI IAM role creation**: Many AWS SAM templates, including this example, create AWS IAM roles required for the AWS Lambda function(s) included to access AWS services. By default, these are scoped down to minimum required permissions. To deploy an AWS CloudFormation stack which creates or modifies IAM roles, the `CAPABILITY_IAM` value for `capabilities` must be provided. If permission isn't provided through this prompt, to deploy this example you must explicitly pass `--capabilities CAPABILITY_IAM` to the `sam deploy` command.
-* **Save arguments to samconfig.toml**: If set to yes, your choices will be saved to a configuration file inside the project, so that in the future you can just re-run `sam deploy` without parameters to deploy changes to your application.
+最初のコマンドはアプリケーションのソースをビルドします。2 番目のコマンドはアプリケーションをパッケージ化し、一連のプロンプトとともに AWS にデプロイします：
 
-You can find your API Gateway Endpoint URL in the output values displayed after deployment.
+* **Stack Name (スタック名)**: CloudFormation にデプロイするスタックの名前。これはアカウントとリージョン内で一意である必要があり、プロジェクト名に一致するものを指定するのが良い出発点となります。
+* **AWS Region (AWS リージョン)**: アプリケーションをデプロイする AWS リージョン。
+* **Confirm changes before deploy (デプロイ前に変更を確認する)**: `yes` に設定すると、実行前に変更セットが表示され、手動で確認できます。`no` に設定すると、AWS SAM CLI はアプリケーションの変更を自動的にデプロイします。
+* **Allow SAM CLI IAM role creation (SAM CLI による IAM ロールの作成を許可する)**: この例を含む多くの AWS SAM テンプレートは、AWS サービスにアクセスするために必要な AWS IAM ロールを AWS Lambda 関数用に作成します。デフォルトでは、これらは必要最小限の権限に絞り込まれています。IAM ロールを作成または変更する AWS CloudFormation スタックをデプロイするには、`capabilities` に `CAPABILITY_IAM` 値を提供する必要があります。このプロンプトで権限が提供されない場合、この例をデプロイするには `sam deploy` コマンドに `--capabilities CAPABILITY_IAM` を明示的に渡す必要があります。
+* **Save arguments to samconfig.toml (引数を samconfig.toml に保存する)**: `yes` に設定すると、選択内容がプロジェクト内の設定ファイルに保存され、将来はパラメータなしで `sam deploy` を再実行するだけでアプリケーションに変更をデプロイできるようになります。
 
-## Use the SAM CLI to build and test locally
+デプロイ後に表示される出力値の中に、API Gateway のエンドポイント URL があります。
 
-Build your application with the `sam build` command.
+## SAM CLI を使用したローカルでのビルドとテスト
+
+`sam build` コマンドを使用してアプリケーションをビルドします。
 
 ```bash
 subsc-analyzer$ sam build
 ```
 
-The SAM CLI installs dependencies defined in `hello-world/package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
+SAM CLI は `hello-world/package.json` に定義されている依存関係をインストールし、デプロイパッケージを作成して `.aws-sam/build` フォルダに保存します。
 
-Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
+テストイベントを使用して関数を直接呼び出すことで、単一の関数をテストします。イベントは、関数がイベントソースから受け取る入力を表す JSON ドキュメントです。テストイベントは、このプロジェクトの `events` フォルダに含まれています。
 
-Run functions locally and invoke them with the `sam local invoke` command.
+関数をローカルで実行し、`sam local invoke` コマンドで呼び出します。
 
 ```bash
 subsc-analyzer$ sam local invoke HelloWorldFunction --event events/event.json
 ```
 
-The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
+SAM CLI はアプリケーションの API をエミュレートすることもできます。`sam local start-api` を使用して、ポート 3000 でローカルに API を実行します。
 
 ```bash
 subsc-analyzer$ sam local start-api
 subsc-analyzer$ curl http://localhost:3000/
 ```
 
-The SAM CLI reads the application template to determine the API's routes and the functions that they invoke. The `Events` property on each function's definition includes the route and method for each path.
+SAM CLI はアプリケーションテンプレートを読み取り、API のルートとそれらが呼び出す関数を決定します。各関数の定義の `Events` プロパティには、各パスのルートと HTTP メソッドが含まれています。
 
 ```yaml
       Events:
@@ -87,24 +87,25 @@ The SAM CLI reads the application template to determine the API's routes and the
             Method: get
 ```
 
-## Add a resource to your application
-The application template uses AWS Serverless Application Model (AWS SAM) to define application resources. AWS SAM is an extension of AWS CloudFormation with a simpler syntax for configuring common serverless application resources such as functions, triggers, and APIs. For resources not included in [the SAM specification](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md), you can use standard [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) resource types.
+## アプリケーションへのリソースの追加
 
-## Fetch, tail, and filter Lambda function logs
+アプリケーションテンプレートは、AWS Serverless Application Model (AWS SAM) を使用してアプリケーションリソースを定義します。AWS SAM は、関数、トリガー、API などの一般的なサーバーレスアプリケーションリソースを設定するためのよりシンプルな構文を持つ AWS CloudFormation の拡張機能です。[SAM 仕様](https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md) に含まれていないリソースについては、標準の [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) リソースタイプを使用できます。
 
-To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs` lets you fetch logs generated by your deployed Lambda function from the command line. In addition to printing the logs on the terminal, this command has several nifty features to help you quickly find the bug.
+## Lambda 関数のログの取得、tail、およびフィルタリング
 
-`NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
+トラブルシューティングを簡素化するために、SAM CLI には `sam logs` というコマンドがあります。`sam logs` を使用すると、デプロイされた Lambda 関数によって生成されたログをコマンドラインから取得できます。このコマンドには、ターミナルにログを出力することに加えて、バグをすばやく見つけるのに役立ついくつかの便利な機能があります。
+
+`注`: このコマンドは、SAM を使用してデプロイした関数だけでなく、すべての AWS Lambda 関数で機能します。
 
 ```bash
 subsc-analyzer$ sam logs -n HelloWorldFunction --stack-name subsc-analyzer --tail
 ```
 
-You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
+Lambda 関数のログのフィルタリングに関する詳細情報と例は、[SAM CLI ドキュメント](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html)で確認できます。
 
-## Unit tests
+## 単体テスト
 
-Tests are defined in the `hello-world/tests` folder in this project. Use NPM to install the [Mocha test framework](https://mochajs.org/) and run unit tests.
+テストは、このプロジェクトの `hello-world/tests` フォルダに定義されています。NPM を使用して [Mocha テストフレームワーク](https://mochajs.org/) をインストールし、単体テストを実行します。
 
 ```bash
 subsc-analyzer$ cd hello-world
@@ -112,16 +113,16 @@ hello-world$ npm install
 hello-world$ npm run test
 ```
 
-## Cleanup
+## クリーンアップ
 
-To delete the sample application that you created, use the AWS CLI. Assuming you used your project name for the stack name, you can run the following:
+作成したサンプルアプリケーションを削除するには、AWS CLI を使用します。プロジェクト名をスタック名として使用したと仮定すると、以下を実行できます。
 
 ```bash
 sam delete --stack-name subsc-analyzer
 ```
 
-## Resources
+## リソース
 
-See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
+SAM 仕様、SAM CLI、およびサーバーレスアプリケーションの概念の概要については、[AWS SAM 開発者ガイド](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)を参照してください。
 
-Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+次に、AWS Serverless Application Repository を使用して、Hello World サンプルを超えるすぐに使えるアプリをデプロイし、作成者がアプリケーションをどのように開発したかを学ぶことができます：[AWS Serverless Application Repository メインページ](https://aws.amazon.com/serverless/serverlessrepo/)
